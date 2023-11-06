@@ -1,12 +1,11 @@
 package pdr.chorumeblog.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import pdr.chorumeblog.model.utils.CreateAndUpdateEntity;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -15,6 +14,7 @@ import java.util.UUID;
 @Entity
 @Builder
 @AllArgsConstructor
+@ToString(exclude = {"posts", "comments"})
 public class UserEntity {
 
     @Id
@@ -38,6 +38,12 @@ public class UserEntity {
     private String github;
 
     private Integer likes;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<PostEntity> posts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<CommentEntity> comments = new ArrayList<>();
 
     @Embedded
     private CreateAndUpdateEntity dateTime;

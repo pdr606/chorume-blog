@@ -26,4 +26,8 @@ public class PostEntity {
     private String content;
 
     private Integer likes;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
 }

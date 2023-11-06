@@ -22,4 +22,8 @@ public class CommentEntity {
     private String content;
 
     private Integer likes;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
 }
