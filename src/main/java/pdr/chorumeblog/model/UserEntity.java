@@ -20,12 +20,23 @@ public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+
+    @Column(nullable = false, unique = true)
     private String nickName;
+
+    @Column(nullable = false, unique = true)
     private String email;
+
+    @Column(nullable = false)
     private String profilePhoto;
+
+    @Column(nullable = false)
     private String password;
+
     private String linkedin;
+
     private String github;
+
     private Integer likes;
 
     @Embedded
