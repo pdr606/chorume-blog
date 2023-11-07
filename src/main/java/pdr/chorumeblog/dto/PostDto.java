@@ -55,6 +55,7 @@ public record PostDto(
                         .build())
                 .user(UserDto.builder()
                         .nickName(data.getUser().getNickName())
+                        .profilePhoto(data.getUser().getProfilePhoto())
                         .build())
                 .build();
     }

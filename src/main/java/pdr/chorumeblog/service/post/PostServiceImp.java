@@ -3,7 +3,7 @@ package pdr.chorumeblog.service.post;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import pdr.chorumeblog.dto.PostDto;
-import pdr.chorumeblog.mapper.PostMapper;
+import pdr.chorumeblog.mapper.post.PostMapper;
 import pdr.chorumeblog.model.PostEntity;
 import pdr.chorumeblog.model.UserEntity;
 import pdr.chorumeblog.repository.PostRepository;
