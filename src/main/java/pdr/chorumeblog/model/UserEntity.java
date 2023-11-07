@@ -3,6 +3,7 @@ package pdr.chorumeblog.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.Accessors;
 import org.hibernate.annotations.GenericGenerator;
 import pdr.chorumeblog.model.utils.CreateAndUpdateEntity;
 
@@ -52,9 +53,9 @@ public class UserEntity {
 
     @Embedded
     private CreateAndUpdateEntity dateTime;
-
     @PrePersist
     private void initializeCreateAndUpdate(){
         this.dateTime = new CreateAndUpdateEntity();
     }
+
 }

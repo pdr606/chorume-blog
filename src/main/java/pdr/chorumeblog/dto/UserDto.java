@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Builder;
+import lombok.experimental.Accessors;
 import pdr.chorumeblog.config.groupsValidation.CreateUserValidation;
 import pdr.chorumeblog.model.CommentEntity;
 import pdr.chorumeblog.model.PostEntity;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Builder
+@Accessors(fluent = true)
 public record UserDto(
 
         @JsonInclude(JsonInclude.Include.NON_NULL)

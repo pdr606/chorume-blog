@@ -7,6 +7,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import pdr.chorumeblog.config.groupsValidation.CreateUserValidation;
 import pdr.chorumeblog.dto.UserDto;
+import pdr.chorumeblog.mapper.user.UserMapper;
 import pdr.chorumeblog.service.user.UserService;
 
 
@@ -27,6 +28,6 @@ public class UserController {
     @GetMapping(value = "/{nickName}")
     @ResponseStatus(HttpStatus.OK)
     public UserDto getById(@PathVariable String nickName){
-        return UserDto.toDto(userService.findUserByNickName(nickName));
+        return UserMapper.INSTANCE.toDto(userService.findUserByNickName(nickName));
     }
 }
