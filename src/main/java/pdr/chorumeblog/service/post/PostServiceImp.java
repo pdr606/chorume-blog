@@ -20,7 +20,7 @@ public class PostServiceImp implements PostService {
     private final PostRepository postRepository;
     @Override
     public void createPost(String nickName, PostEntity post) {
-        UserEntity user = userService.getByNickName(nickName);
+        UserEntity user = userService.findUserByNickName(nickName);
         post.setUser(user);
         postRepository.save(post);
     }

@@ -25,7 +25,7 @@ public record CommentDto(
         @JsonInclude(JsonInclude.Include.NON_NULL)
         CreateAndUpdateEntity dateTime,
         @JsonInclude(JsonInclude.Include.NON_NULL)
-        UserEntity user
+        UserDto user
 
 )
 {
@@ -44,6 +44,12 @@ public record CommentDto(
                 .dateTime(CreateAndUpdateEntity.builder()
                         .created(data.getDateTime().getCreated())
                         .updated(data.getDateTime().getUpdated())
+                        .build())
+                .user(UserDto
+                        .builder()
+                        .nickName(data.getUser().getNickName())
+                        .profilePhoto(data.getUser().getProfilePhoto())
+                        .likes(data.getLikes())
                         .build())
                 .build();
     }

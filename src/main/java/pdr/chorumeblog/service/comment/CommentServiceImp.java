@@ -2,7 +2,10 @@ package pdr.chorumeblog.service.comment;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import pdr.chorumeblog.dto.CommentDto;
 import pdr.chorumeblog.dto.UserDto;
+import pdr.chorumeblog.mapper.comment.CommentMapper;
+import pdr.chorumeblog.mapper.post.PostMapper;
 import pdr.chorumeblog.model.CommentEntity;
 import pdr.chorumeblog.model.PostEntity;
 import pdr.chorumeblog.model.UserEntity;
@@ -11,6 +14,7 @@ import pdr.chorumeblog.repository.PostRepository;
 import pdr.chorumeblog.service.post.PostService;
 import pdr.chorumeblog.service.user.UserService;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -29,5 +33,10 @@ public class CommentServiceImp implements CommentService {
         comment.setUser(user);
         comment.setPost(post);
         commentRepository.save(comment);
+    }
+
+    @Override
+    public List<CommentDto> findAllCommentsOfUnicPost(Long id) {
+        return CommentMapper.INSTANCE.toDtoList(commentRepository.findAllByPostId(id));
     }
 }

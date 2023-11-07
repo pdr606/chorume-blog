@@ -3,11 +3,13 @@ package pdr.chorumeblog.controller;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import pdr.chorumeblog.dto.CommentDto;
 import pdr.chorumeblog.model.CommentEntity;
 import pdr.chorumeblog.model.PostEntity;
 import pdr.chorumeblog.service.comment.CommentService;
 import pdr.chorumeblog.service.post.PostService;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -23,5 +25,10 @@ public class CommentController {
         commentService.createComment(nickName, data, postId);
     }
 
+    @GetMapping(value = "/{postId}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<CommentDto> findAll(@PathVariable Long postId){
+        return commentService.findAllCommentsOfUnicPost(postId);
+    }
 
 }
