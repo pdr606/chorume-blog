@@ -17,7 +17,7 @@ public class PostController {
 
     private final PostService postService;
 
-    @PostMapping(value = "/{uuid")
+    @PostMapping(value = "/{uuid}")
     @ResponseStatus(HttpStatus.OK)
     public void create(@PathVariable UUID uuid,@RequestBody PostEntity data){
         postService.create(uuid, data);

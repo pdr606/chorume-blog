@@ -17,7 +17,7 @@ public class CommentController {
 
     private final CommentService commentService;
 
-    @PostMapping(value = "/{uuid")
+    @PostMapping(value = "/{uuid}")
     @ResponseStatus(HttpStatus.OK)
     public void create(@PathVariable UUID uuid,@RequestBody CommentEntity data){
         commentService.create(uuid, data);
