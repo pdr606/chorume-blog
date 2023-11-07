@@ -1,6 +1,8 @@
 package pdr.chorumeblog.service.post;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pdr.chorumeblog.dto.PostDto;
 import pdr.chorumeblog.mapper.post.PostMapper;
@@ -24,14 +26,21 @@ public class PostServiceImp implements PostService {
         post.setUser(user);
         postRepository.save(post);
     }
-
     @Override
     public PostEntity findPostById(Long id) {
         return postRepository.findById(id).orElseThrow(RuntimeException::new);
     }
 
     @Override
-    public List<PostDto> findAllPosts() {
-        return PostMapper.INSTANCE.toDtoList(postRepository.findAll());
+    public List<PostDto> findAllPosts(Pageable pageable) {
+        if(pageable.getPageSize() > 30){
+            pageable = PageRequest.of(pageable.getPageNumber(), 30, pageable.getSort());
+        }
+        return PostMapper.INSTANCE.toDtoList(postRepository.findAll(pageable).getContent());
+    }
+
+    @Override
+    public List<PostDto> findAllPostsByNickName(String nickName) {
+        return PostMapper.INSTANCE.toDtoList(postRepository.findAllByUserNickName(nickName));
     }
 }

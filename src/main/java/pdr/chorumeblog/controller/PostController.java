@@ -1,6 +1,9 @@
 package pdr.chorumeblog.controller;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +29,7 @@ public class PostController {
     public void create(@PathVariable @Validated String nickName,@RequestBody @Validated PostEntity data){
         postService.createPost(nickName, data);
     }
+
     @GetMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.OK)
     public PostDto findById(@PathVariable @Validated Long id){
@@ -34,7 +38,13 @@ public class PostController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<PostDto> findAll(){
-        return postService.findAllPosts();
+    public List<PostDto> findAll(
+            @PageableDefault(direction = Sort.Direction.ASC, page = 0, size = 30)Pageable pageable
+            ){
+        return postService.findAllPosts(pageable);
+    }
+    @GetMapping(value = "/{nickName}")
+    public List<PostDto> findAllByNickName(@PathVariable String nickName){
+        return postService.findAllPostsByNickName(nickName);
     }
 }
