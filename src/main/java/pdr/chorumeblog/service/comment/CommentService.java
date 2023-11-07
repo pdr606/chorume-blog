@@ -7,5 +7,5 @@ import pdr.chorumeblog.model.PostEntity;
 import java.util.UUID;
 
 public interface CommentService {
-    void create(UUID userId, CommentEntity comment);
+    void create(String nickName, CommentEntity comment, Long postId);
 }

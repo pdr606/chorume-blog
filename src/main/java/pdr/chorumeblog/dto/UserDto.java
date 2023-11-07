@@ -4,13 +4,18 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Builder;
 import pdr.chorumeblog.config.groupsValidation.CreateUserValidation;
+import pdr.chorumeblog.model.CommentEntity;
+import pdr.chorumeblog.model.PostEntity;
 import pdr.chorumeblog.model.UserEntity;
 import pdr.chorumeblog.model.utils.CreateAndUpdateEntity;
 
+import java.util.List;
 import java.util.UUID;
 
 @Builder
 public record UserDto(
+
+        @JsonInclude(JsonInclude.Include.NON_NULL)
         UUID id,
         @NotEmpty(message = "NickName is required", groups = CreateUserValidation.class)
         @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -38,9 +43,10 @@ public record UserDto(
 
         @JsonInclude(JsonInclude.Include.NON_NULL)
         CreateAndUpdateEntity dateTime
+
 )
 {
-    private static UserEntity toEntity(UserDto dto){
+    public static UserEntity toEntity(UserDto dto){
         return UserEntity.builder()
                 .nickName(dto.nickName())
                 .email(dto.email())
@@ -52,14 +58,19 @@ public record UserDto(
                 .build();
     }
 
-    private static UserDto toDto(UserEntity data){
+    public static UserDto toDto(UserEntity data){
         return UserDto.builder()
+                .id(data.getId())
                 .nickName(data.getNickName())
                 .email(data.getEmail())
                 .profilePhoto(data.getProfilePhoto())
                 .linkedin(data.getLinkedin())
                 .github(data.getGithub())
                 .likes(data.getLikes())
+                .dateTime(CreateAndUpdateEntity.builder()
+                        .created(data.getDateTime().getCreated())
+                        .updated(data.getDateTime().getUpdated())
+                        .build())
                 .build();
     }
 }

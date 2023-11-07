@@ -1,11 +1,12 @@
 package pdr.chorumeblog.service.post;
 
 
+import pdr.chorumeblog.dto.PostDto;
 import pdr.chorumeblog.model.PostEntity;
-import pdr.chorumeblog.model.UserEntity;
-
-import java.util.UUID;
+import java.util.List;
 
 public interface PostService {
-    void create(UUID userId, PostEntity post);
+    void create(String nickName, PostEntity post);
+    PostEntity findById(Long id);
+    List<PostDto> findAll();
 }

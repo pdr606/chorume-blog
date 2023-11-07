@@ -2,6 +2,7 @@ package pdr.chorumeblog.service.comment;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import pdr.chorumeblog.dto.UserDto;
 import pdr.chorumeblog.model.CommentEntity;
 import pdr.chorumeblog.model.PostEntity;
 import pdr.chorumeblog.model.UserEntity;
@@ -18,11 +19,15 @@ public class CommentServiceImp implements CommentService {
 
     private final UserService userService;
 
+    private final PostService postService;
+
     private final CommentRepository commentRepository;
     @Override
-    public void create(UUID userId, CommentEntity comment) {
-        UserEntity user = userService.getById(userId);
+    public void create(String nickName, CommentEntity comment, Long postId) {
+        UserEntity user = userService.getByNickName(nickName);
+        PostEntity post = postService.findById(postId);
         comment.setUser(user);
+        comment.setPost(post);
         commentRepository.save(comment);
     }
 }

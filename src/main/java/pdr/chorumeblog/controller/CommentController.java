@@ -17,10 +17,10 @@ public class CommentController {
 
     private final CommentService commentService;
 
-    @PostMapping(value = "/{uuid}")
+    @PostMapping(value = "/{nickName}/{postId}")
     @ResponseStatus(HttpStatus.OK)
-    public void create(@PathVariable UUID uuid,@RequestBody CommentEntity data){
-        commentService.create(uuid, data);
+    public void create(@PathVariable String nickName, @PathVariable Long postId,@RequestBody CommentEntity data){
+        commentService.create(nickName, data, postId);
     }
 
 

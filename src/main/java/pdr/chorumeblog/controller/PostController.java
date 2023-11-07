@@ -17,10 +17,10 @@ public class PostController {
 
     private final PostService postService;
 
-    @PostMapping(value = "/{uuid}")
+    @PostMapping(value = "/{nickName}")
     @ResponseStatus(HttpStatus.OK)
-    public void create(@PathVariable UUID uuid,@RequestBody PostEntity data){
-        postService.create(uuid, data);
+    public void create(@PathVariable String nickName,@RequestBody PostEntity data){
+        postService.create(nickName, data);
     }
 
 
