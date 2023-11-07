@@ -20,7 +20,7 @@ public class CommentController {
     @PostMapping(value = "/{nickName}/{postId}")
     @ResponseStatus(HttpStatus.OK)
     public void create(@PathVariable String nickName, @PathVariable Long postId,@RequestBody CommentEntity data){
-        commentService.create(nickName, data, postId);
+        commentService.createComment(nickName, data, postId);
     }
 
 

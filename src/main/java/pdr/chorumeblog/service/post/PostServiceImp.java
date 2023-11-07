@@ -19,19 +19,19 @@ public class PostServiceImp implements PostService {
 
     private final PostRepository postRepository;
     @Override
-    public void create(String nickName, PostEntity post) {
+    public void createPost(String nickName, PostEntity post) {
         UserEntity user = userService.getByNickName(nickName);
         post.setUser(user);
         postRepository.save(post);
     }
 
     @Override
-    public PostEntity findById(Long id) {
+    public PostEntity findPostById(Long id) {
         return postRepository.findById(id).orElseThrow(RuntimeException::new);
     }
 
     @Override
-    public List<PostDto> findAll() {
+    public List<PostDto> findAllPosts() {
         return PostMapper.INSTANCE.toDtoList(postRepository.findAll());
     }
 }

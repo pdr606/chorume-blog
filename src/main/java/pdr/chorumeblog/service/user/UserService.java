@@ -8,6 +8,6 @@ import java.util.UUID;
 
 public interface UserService {
 
-    void create(UserDto data);
-    UserEntity getByNickName(String nickName);
+    void createUser(UserDto data);
+    UserEntity findUserByNickName(String nickName);
 }

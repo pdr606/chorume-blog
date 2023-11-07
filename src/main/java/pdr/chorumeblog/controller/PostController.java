@@ -24,17 +24,17 @@ public class PostController {
     @PostMapping(value = "/{nickName}")
     @ResponseStatus(HttpStatus.OK)
     public void create(@PathVariable @Validated String nickName,@RequestBody @Validated PostEntity data){
-        postService.create(nickName, data);
+        postService.createPost(nickName, data);
     }
     @GetMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.OK)
     public PostDto findById(@PathVariable @Validated Long id){
-        return PostDto.toDto(postService.findById(id));
+        return PostDto.toDto(postService.findPostById(id));
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<PostDto> findAll(){
-        return postService.findAll();
+        return postService.findAllPosts();
     }
 }

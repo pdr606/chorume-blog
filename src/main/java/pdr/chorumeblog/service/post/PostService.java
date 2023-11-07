@@ -6,7 +6,7 @@ import pdr.chorumeblog.model.PostEntity;
 import java.util.List;
 
 public interface PostService {
-    void create(String nickName, PostEntity post);
-    PostEntity findById(Long id);
-    List<PostDto> findAll();
+    void createPost(String nickName, PostEntity post);
+    PostEntity findPostById(Long id);
+    List<PostDto> findAllPosts();
 }

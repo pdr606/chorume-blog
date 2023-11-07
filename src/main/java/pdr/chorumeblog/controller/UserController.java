@@ -21,12 +21,12 @@ public class UserController {
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
     public void save(@RequestBody @Validated(value = CreateUserValidation.class) UserDto data){
-        userService.create(data);
+        userService.createUser(data);
     }
 
     @GetMapping(value = "/{nickName}")
     @ResponseStatus(HttpStatus.OK)
     public UserDto getById(@PathVariable String nickName){
-        return UserDto.toDto(userService.getByNickName(nickName));
+        return UserDto.toDto(userService.findUserByNickName(nickName));
     }
 }

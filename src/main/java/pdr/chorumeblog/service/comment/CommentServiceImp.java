@@ -23,9 +23,9 @@ public class CommentServiceImp implements CommentService {
 
     private final CommentRepository commentRepository;
     @Override
-    public void create(String nickName, CommentEntity comment, Long postId) {
-        UserEntity user = userService.getByNickName(nickName);
-        PostEntity post = postService.findById(postId);
+    public void createComment(String nickName, CommentEntity comment, Long postId) {
+        UserEntity user = userService.findUserByNickName(nickName);
+        PostEntity post = postService.findPostById(postId);
         comment.setUser(user);
         comment.setPost(post);
         commentRepository.save(comment);

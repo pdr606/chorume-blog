@@ -14,12 +14,12 @@ public class UserServiceImp implements UserService {
 
     private UserRepository userRepository;
     @Override
-    public void create(UserDto dto) {
+    public void createUser(UserDto dto) {
         userRepository.save(UserDto.toEntity(dto));
     }
 
     @Override
-    public UserEntity getByNickName(String nickName) {
+    public UserEntity findUserByNickName(String nickName) {
         return userRepository.findByNickName(nickName);
     }
 
