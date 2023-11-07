@@ -28,7 +28,10 @@ public record PostDto(
         Integer likes,
 
         @JsonInclude(JsonInclude.Include.NON_NULL)
-        CreateAndUpdateEntity dateTime
+        CreateAndUpdateEntity dateTime,
+
+        @JsonInclude(JsonInclude.Include.NON_NULL)
+        UserDto user
 
 )
 {
@@ -49,6 +52,9 @@ public record PostDto(
                 .dateTime(CreateAndUpdateEntity.builder()
                         .created(data.getDateTime().getCreated())
                         .updated(data.getDateTime().getUpdated())
+                        .build())
+                .user(UserDto.builder()
+                        .nickName(data.getUser().getNickName())
                         .build())
                 .build();
     }

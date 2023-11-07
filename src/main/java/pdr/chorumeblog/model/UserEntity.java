@@ -1,5 +1,6 @@
 package pdr.chorumeblog.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -42,9 +43,11 @@ public class UserEntity {
     private Integer likes;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<PostEntity> posts = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<CommentEntity> comments = new ArrayList<>();
 
     @Embedded

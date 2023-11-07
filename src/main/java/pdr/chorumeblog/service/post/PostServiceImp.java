@@ -3,15 +3,13 @@ package pdr.chorumeblog.service.post;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import pdr.chorumeblog.dto.PostDto;
-import pdr.chorumeblog.dto.UserDto;
+import pdr.chorumeblog.mapper.PostMapper;
 import pdr.chorumeblog.model.PostEntity;
 import pdr.chorumeblog.model.UserEntity;
 import pdr.chorumeblog.repository.PostRepository;
 import pdr.chorumeblog.service.user.UserService;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -34,6 +32,6 @@ public class PostServiceImp implements PostService {
 
     @Override
     public List<PostDto> findAll() {
-        return null;
+        return PostMapper.INSTANCE.toDtoList(postRepository.findAll());
     }
 }

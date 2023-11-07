@@ -1,6 +1,7 @@
 package pdr.chorumeblog.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -39,5 +40,11 @@ public class PostEntity {
     private UserEntity user;
 
     @OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<CommentEntity> comments = new ArrayList<>();
+
+    @PrePersist
+    private void initializeCreateAndUpdate(){
+        this.dateTime = new CreateAndUpdateEntity();
+    }
 }

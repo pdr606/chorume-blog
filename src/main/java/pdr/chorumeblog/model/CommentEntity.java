@@ -34,4 +34,9 @@ public class CommentEntity {
     @ManyToOne
     @JoinColumn(name = "post_id")
     private PostEntity post;
+
+    @PrePersist
+    private void initializeCreateAndUpdate(){
+        this.dateTime = new CreateAndUpdateEntity();
+    }
 }
