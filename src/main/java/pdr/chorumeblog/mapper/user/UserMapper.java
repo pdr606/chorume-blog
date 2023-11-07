@@ -1,9 +1,6 @@
 package pdr.chorumeblog.mapper.user;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.NullValuePropertyMappingStrategy;
-import org.mapstruct.ReportingPolicy;
+import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 import pdr.chorumeblog.dto.CommentDto;
 import pdr.chorumeblog.dto.UserDto;
@@ -18,4 +15,6 @@ public interface UserMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "password", ignore = true)
     UserDto toDto(UserEntity entity);
+
+    void updateUserFromDto(UserDto dto, @MappingTarget UserEntity userEntity);
 }
