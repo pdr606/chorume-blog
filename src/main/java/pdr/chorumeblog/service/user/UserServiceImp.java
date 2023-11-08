@@ -32,11 +32,11 @@ public class UserServiceImp implements UserService {
 
     @Override
     public UserEntity findUserByNickName(String nickName) {
-        try {
-            return userRepository.findByNickName(nickName);
-        } catch (DataIntegrityViolationException ex){
+            UserEntity user = userRepository.findByNickName(nickName);
+            if (user != null){
+                return user;
+            }
             throw new NotFoundException("User " + nickName + " not found.");
-        }
     }
 
     @Override

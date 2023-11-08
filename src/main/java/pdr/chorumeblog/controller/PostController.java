@@ -24,7 +24,7 @@ public class PostController {
 
     private final PostService postService;
 
-    @PostMapping(value = "/{nickName}")
+    @PostMapping(value = "/user/{nickName}")
     @ResponseStatus(HttpStatus.OK)
     public void create(@PathVariable @Validated String nickName,@RequestBody @Validated PostEntity data){
         postService.createPost(nickName, data);
@@ -43,8 +43,13 @@ public class PostController {
             ){
         return postService.findAllPosts(pageable);
     }
-    @GetMapping(value = "/{nickName}")
+    @GetMapping(value = "/user/{nickName}")
     public List<PostDto> findAllByNickName(@PathVariable String nickName){
         return postService.findAllPostsByNickName(nickName);
+    }
+
+    @PostMapping(value = "/{id}/{nickName}")
+    public void likePost(@PathVariable Long id, @PathVariable String nickName){
+        postService.acrescentLike(id, nickName);
     }
 }

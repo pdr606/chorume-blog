@@ -11,4 +11,5 @@ public interface PostService {
     PostEntity findPostById(Long id);
     List<PostDto> findAllPosts(Pageable pageable);
     List<PostDto> findAllPostsByNickName(String nickName);
+    void acrescentLike(Long id, String nickName);
 }

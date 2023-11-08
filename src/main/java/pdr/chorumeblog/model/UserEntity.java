@@ -51,6 +51,9 @@ public class UserEntity {
     @JsonIgnore
     private List<CommentEntity> comments = new ArrayList<>();
 
+    @ManyToMany
+    private List<UserPostLikeEntity> userPostLikes = new ArrayList<>();
+
     @Embedded
     private CreateAndUpdateEntity dateTime;
     @PrePersist

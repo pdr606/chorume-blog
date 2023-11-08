@@ -9,8 +9,10 @@ import pdr.chorumeblog.exceptions.exceptions.NotFoundException;
 import pdr.chorumeblog.mapper.post.PostMapper;
 import pdr.chorumeblog.model.PostEntity;
 import pdr.chorumeblog.model.UserEntity;
+import pdr.chorumeblog.model.UserPostLikeEntity;
 import pdr.chorumeblog.repository.PostRepository;
 import pdr.chorumeblog.service.user.UserService;
+import pdr.chorumeblog.service.userPostLike.UserPostLikeService;
 
 import java.util.List;
 
@@ -21,6 +23,7 @@ public class PostServiceImp implements PostService {
     private final UserService userService;
 
     private final PostRepository postRepository;
+    private final UserPostLikeService userPostLikeService;
     @Override
     public void createPost(String nickName, PostEntity post) {
         UserEntity user = userService.findUserByNickName(nickName);
@@ -42,6 +45,14 @@ public class PostServiceImp implements PostService {
 
     @Override
     public List<PostDto> findAllPostsByNickName(String nickName) {
+        UserEntity user = userService.findUserByNickName(nickName);
         return PostMapper.INSTANCE.toDtoList(postRepository.findAllByUserNickName(nickName));
+    }
+
+    @Override
+    public void acrescentLike(Long id, String nickName) {
+        PostEntity post = findPostById(id);
+        UserEntity user = userService.findUserByNickName(nickName);
+        userPostLikeService.saveLike(UserPostLikeEntity.builder().user(user).post(post).build());
     }
 }
