@@ -5,6 +5,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pdr.chorumeblog.dto.PostDto;
+import pdr.chorumeblog.exceptions.exceptions.NotFoundException;
 import pdr.chorumeblog.mapper.post.PostMapper;
 import pdr.chorumeblog.model.PostEntity;
 import pdr.chorumeblog.model.UserEntity;
@@ -28,7 +29,7 @@ public class PostServiceImp implements PostService {
     }
     @Override
     public PostEntity findPostById(Long id) {
-        return postRepository.findById(id).orElseThrow(RuntimeException::new);
+        return postRepository.findById(id).orElseThrow(() -> new NotFoundException("Post of id " + id + " not found."));
     }
 
     @Override

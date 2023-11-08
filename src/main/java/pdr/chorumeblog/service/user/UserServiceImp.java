@@ -1,8 +1,11 @@
 package pdr.chorumeblog.service.user;
 
 import lombok.AllArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import pdr.chorumeblog.dto.UserDto;
+import pdr.chorumeblog.exceptions.exceptions.DuplicateException;
+import pdr.chorumeblog.exceptions.exceptions.NotFoundException;
 import pdr.chorumeblog.mapper.user.UserMapper;
 import pdr.chorumeblog.model.UserEntity;
 import pdr.chorumeblog.repository.UserRepository;
@@ -29,22 +32,31 @@ public class UserServiceImp implements UserService {
 
     @Override
     public UserEntity findUserByNickName(String nickName) {
-        return userRepository.findByNickName(nickName);
+        try {
+            return userRepository.findByNickName(nickName);
+        } catch (DataIntegrityViolationException ex){
+            throw new NotFoundException("User " + nickName + " not found.");
+        }
     }
 
     @Override
     public UserDto updateUser(String nickName, UserDto dto) {
         try {
             UserEntity entity = findUserByNickName(nickName);
+            entity = userRepository.getReferenceById(entity.getId());
             if(dto.email().equals(entity.getEmail())){
-                throw new RuntimeException();
+                throw new DuplicateException("Email " + dto.email() + " is duplicated.");
             }
+            if (dto.nickName().equals(entity.getNickName())){
+                throw new DuplicateException("Nickname " + dto.email()+ " is duplicated.");
+            }
+
             UserMapper.INSTANCE.updateUserFromDto(dto, entity);
 
             return UserMapper.INSTANCE.toDto(entity);
 
-        } catch (RuntimeException ex){
-            throw new RuntimeException();
+        } catch (DataIntegrityViolationException ex){
+            throw new NotFoundException("User " + nickName + " not found.");
         }
     }
 
