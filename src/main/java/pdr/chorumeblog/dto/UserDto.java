@@ -2,6 +2,7 @@ package pdr.chorumeblog.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Builder;
 import lombok.experimental.Accessors;

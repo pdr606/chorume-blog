@@ -26,14 +26,14 @@ public class PostController {
 
     @PostMapping(value = "/user/{nickName}")
     @ResponseStatus(HttpStatus.OK)
-    public void create(@PathVariable @Validated String nickName,@RequestBody @Validated PostEntity data){
-        postService.createPost(nickName, data);
+    public void create(@PathVariable @Validated String nickName,@RequestBody @Validated PostDto dto){
+        postService.createPost(nickName, dto);
     }
 
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "/{postId}")
     @ResponseStatus(HttpStatus.OK)
-    public PostDto findById(@PathVariable @Validated Long id){
-        return PostDto.toDto(postService.findPostById(id));
+    public PostDto findById(@PathVariable @Validated Long postId){
+        return PostDto.toDto(postService.findPostById(postId));
     }
 
     @GetMapping
@@ -48,8 +48,8 @@ public class PostController {
         return postService.findAllPostsByNickName(nickName);
     }
 
-    @PostMapping(value = "/{id}/{nickName}")
-    public void likePost(@PathVariable Long id, @PathVariable String nickName){
-        postService.acrescentLike(id, nickName);
+    @PostMapping(value = "/{postId}/{nickName}")
+    public void likePost(@PathVariable Long postId, @PathVariable String nickName){
+        postService.acrescentLike(postId, nickName);
     }
 }

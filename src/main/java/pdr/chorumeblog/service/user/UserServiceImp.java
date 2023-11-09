@@ -10,8 +10,6 @@ import pdr.chorumeblog.mapper.user.UserMapper;
 import pdr.chorumeblog.model.UserEntity;
 import pdr.chorumeblog.repository.UserRepository;
 
-import java.util.UUID;
-
 @Service
 @AllArgsConstructor
 public class UserServiceImp implements UserService {
@@ -19,7 +17,9 @@ public class UserServiceImp implements UserService {
     private UserRepository userRepository;
     @Override
     public void createUser(UserDto dto) {
-        userRepository.save(UserDto.toEntity(dto));
+        UserEntity userEntity = UserDto.toEntity(dto);
+        userEntity.setLikes(0);
+        userRepository.save(userEntity);
     }
 
     @Override

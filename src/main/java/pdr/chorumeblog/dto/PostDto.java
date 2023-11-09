@@ -1,6 +1,7 @@
 package pdr.chorumeblog.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Builder;
 import pdr.chorumeblog.config.groupsValidation.CreatePostValidation;

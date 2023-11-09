@@ -15,12 +15,13 @@ public class UserPostLikeServiceImp implements UserPostLikeService {
     private final UserPostLikeRepository userPostLikeRepository;
 
     @Override
-    public void saveLike(UserPostLikeEntity entity) {
+    public boolean saveLike(UserPostLikeEntity entity) {
         UserPostLikeEntity findEntity = userPostLikeRepository.findByUserAndPost(entity.getUser(), entity.getPost());
         if(findEntity == null){
             userPostLikeRepository.save(entity);
-            return;
+            return true;
         }
         userPostLikeRepository.delete(findEntity);
+        return false;
     }
 }

@@ -25,10 +25,10 @@ public class CommentController {
         commentService.createComment(nickName, data, postId);
     }
 
-    @GetMapping(value = "/{postId}")
+    @GetMapping(value = "/{commentId}")
     @ResponseStatus(HttpStatus.OK)
-    public List<CommentDto> findAll(@PathVariable Long postId){
-        return commentService.findAllCommentsOfUnicPost(postId);
+    public List<CommentDto> findAll(@PathVariable Long commentId){
+        return commentService.findAllCommentsOfUnicPost(commentId);
     }
 
 }

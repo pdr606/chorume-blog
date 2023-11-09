@@ -8,5 +8,5 @@ import pdr.chorumeblog.model.UserPostLikeEntity;
 import java.util.UUID;
 
 public interface UserPostLikeService {
-    void saveLike(UserPostLikeEntity entity);
+    boolean saveLike(UserPostLikeEntity entity);
 }

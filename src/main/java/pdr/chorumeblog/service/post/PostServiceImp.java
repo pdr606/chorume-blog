@@ -5,6 +5,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pdr.chorumeblog.dto.PostDto;
+import pdr.chorumeblog.dto.UserDto;
 import pdr.chorumeblog.exceptions.exceptions.NotFoundException;
 import pdr.chorumeblog.mapper.post.PostMapper;
 import pdr.chorumeblog.model.PostEntity;
@@ -25,9 +26,11 @@ public class PostServiceImp implements PostService {
     private final PostRepository postRepository;
     private final UserPostLikeService userPostLikeService;
     @Override
-    public void createPost(String nickName, PostEntity post) {
+    public void createPost(String nickName, PostDto dto) {
         UserEntity user = userService.findUserByNickName(nickName);
+        PostEntity post = PostDto.toEntity(dto);
         post.setUser(user);
+        post.setLikes(0);
         postRepository.save(post);
     }
     @Override
@@ -53,6 +56,12 @@ public class PostServiceImp implements PostService {
     public void acrescentLike(Long id, String nickName) {
         PostEntity post = findPostById(id);
         UserEntity user = userService.findUserByNickName(nickName);
-        userPostLikeService.saveLike(UserPostLikeEntity.builder().user(user).post(post).build());
+        if(userPostLikeService.saveLike(UserPostLikeEntity.builder().user(user).post(post).build())){
+            post.setLikes(post.getLikes() + 1);
+            postRepository.save(post);
+            return;
+        }
+        post.setLikes(post.getLikes() - 1);
+        postRepository.save(post);
     }
 }
