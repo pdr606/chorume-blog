@@ -2,6 +2,7 @@ package pdr.chorumeblog.service.userPostLike;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import pdr.chorumeblog.model.PostEntity;
 import pdr.chorumeblog.model.UserEntity;
 import pdr.chorumeblog.model.UserPostLikeEntity;
 import pdr.chorumeblog.repository.UserPostLikeRepository;
@@ -23,5 +24,17 @@ public class UserPostLikeServiceImp implements UserPostLikeService {
         }
         userPostLikeRepository.delete(findEntity);
         return false;
+    }
+
+    @Override
+    public boolean checkIfUserLike(PostEntity postEntity) {
+        boolean response;
+        if(userPostLikeRepository.existsByUserAndPost(postEntity.getUser(), postEntity)){
+            response = true;
+        } else {
+            response = false;
+        }
+        return response;
+
     }
 }

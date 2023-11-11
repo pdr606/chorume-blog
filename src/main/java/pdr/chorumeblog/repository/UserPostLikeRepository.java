@@ -11,4 +11,5 @@ import java.util.UUID;
 @Repository
 public interface UserPostLikeRepository extends JpaRepository<UserPostLikeEntity, Long> {
     UserPostLikeEntity findByUserAndPost(UserEntity userEntity, PostEntity postEntity);
+    boolean existsByUserAndPost(UserEntity userEntity, PostEntity postEntity);
 }

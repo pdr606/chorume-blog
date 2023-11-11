@@ -26,6 +26,9 @@ public record PostDto(
         String content,
 
         @JsonInclude(JsonInclude.Include.NON_NULL)
+         boolean userLiked,
+
+        @JsonInclude(JsonInclude.Include.NON_NULL)
         Integer likes,
 
         @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -49,6 +52,7 @@ public record PostDto(
                 .id(data.getId())
                 .title(data.getTitle())
                 .content(data.getContent())
+                .userLiked(data.isUserLiked())
                 .likes(data.getLikes())
                 .dateTime(CreateAndUpdateEntity.builder()
                         .created(data.getDateTime().getCreated())

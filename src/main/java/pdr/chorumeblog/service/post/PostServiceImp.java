@@ -43,7 +43,11 @@ public class PostServiceImp implements PostService {
         if(pageable.getPageSize() > 30){
             pageable = PageRequest.of(pageable.getPageNumber(), 30, pageable.getSort());
         }
-        return PostMapper.INSTANCE.toDtoList(postRepository.findAll(pageable).getContent());
+        List<PostEntity> posts = postRepository.findAll(pageable).getContent();
+        posts.stream().filter(postEntity -> userPostLikeService.checkIfUserLike(postEntity) == true)
+                .forEach(post -> post.setUserLiked(true));
+
+        return PostMapper.INSTANCE.toDtoList(posts);
     }
 
     @Override

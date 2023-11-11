@@ -30,6 +30,8 @@ public class PostEntity {
     @Column(nullable = false)
     private String content;
 
+    private boolean userLiked;
+
     private Integer likes;
 
     @Embedded
