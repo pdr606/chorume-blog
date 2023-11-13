@@ -10,6 +10,8 @@ import pdr.chorumeblog.mapper.user.UserMapper;
 import pdr.chorumeblog.model.UserEntity;
 import pdr.chorumeblog.repository.UserRepository;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class UserServiceImp implements UserService {
@@ -58,6 +60,11 @@ public class UserServiceImp implements UserService {
         } catch (DataIntegrityViolationException ex){
             throw new NotFoundException("User " + nickName + " not found.");
         }
+    }
+
+    @Override
+    public List<UserDto> findRandomUsers() {
+        return UserMapper.INSTANCE.toDtoList(userRepository.findRandomUsers());
     }
 
 }

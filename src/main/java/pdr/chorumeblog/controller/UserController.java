@@ -12,6 +12,7 @@ import pdr.chorumeblog.dto.UserDto;
 import pdr.chorumeblog.mapper.user.UserMapper;
 import pdr.chorumeblog.service.user.UserService;
 
+import java.util.List;
 
 
 @RestController
@@ -43,5 +44,10 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     public void delete(@RequestBody @Validated(value = DeleteUserValidation.class) UserDto dto){
         userService.deleteUser(dto.nickName(), dto.password());
+    }
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public List<UserDto> randomUsers(){
+        return userService.findRandomUsers();
     }
 }
