@@ -1,7 +1,5 @@
 package pdr.chorumeblog.service.uploadImage;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.*;
@@ -10,7 +8,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
-import pdr.chorumeblog.model.ImgurImageResponse;
+import pdr.chorumeblog.dto.ImgurImageResponseDto;
 
 import java.io.IOException;
 
@@ -24,14 +22,14 @@ public class UploadImageServiceImpl implements UploadImageService {
     private String imgurUploadUrl;
 
     @Override
-    public ImgurImageResponse uploadImage(MultipartFile file) throws IOException {
+    public ImgurImageResponseDto uploadImage(MultipartFile file) throws IOException {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = configureHeaders();
 
         MultiValueMap<String, Object> body = configureBody(file);
 
-        ImgurImageResponse imgurImageResponse = upload(restTemplate, headers, body);
-        return imgurImageResponse;
+        ImgurImageResponseDto imgurImageResponseDto = upload(restTemplate, headers, body);
+        return imgurImageResponseDto;
     }
 
     private HttpHeaders configureHeaders() {
@@ -52,14 +50,14 @@ public class UploadImageServiceImpl implements UploadImageService {
         return body;
     }
 
-    private ImgurImageResponse upload(RestTemplate restTemplate, HttpHeaders headers, MultiValueMap<String, Object> body) {
+    private ImgurImageResponseDto upload(RestTemplate restTemplate, HttpHeaders headers, MultiValueMap<String, Object> body) {
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 
-        ResponseEntity<ImgurImageResponse> responseEntity = restTemplate.exchange(
+        ResponseEntity<ImgurImageResponseDto> responseEntity = restTemplate.exchange(
                 imgurUploadUrl,
                 HttpMethod.POST,
                 requestEntity,
-                ImgurImageResponse.class
+                ImgurImageResponseDto.class
         );
 
         return responseEntity.getBody();

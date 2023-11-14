@@ -1,8 +1,6 @@
 package pdr.chorumeblog.controller;
 
-import com.sun.net.httpserver.Headers;
 import lombok.AllArgsConstructor;
-import org.apache.catalina.User;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;
@@ -16,7 +14,7 @@ import pdr.chorumeblog.config.groupsValidation.DeleteUserValidation;
 import pdr.chorumeblog.config.groupsValidation.UpdateUserValidation;
 import pdr.chorumeblog.dto.UserDto;
 import pdr.chorumeblog.mapper.user.UserMapper;
-import pdr.chorumeblog.model.ImgurImageResponse;
+import pdr.chorumeblog.dto.ImgurImageResponseDto;
 import pdr.chorumeblog.service.user.UserService;
 
 import java.io.IOException;
@@ -55,11 +53,11 @@ public class UserController {
 
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 
-        ResponseEntity<ImgurImageResponse> responseEntity = restTemplate.exchange(
+        ResponseEntity<ImgurImageResponseDto> responseEntity = restTemplate.exchange(
                 IMGUR_API_URL,
                 HttpMethod.POST,
                 requestEntity,
-                ImgurImageResponse.class
+                ImgurImageResponseDto.class
         );
 
         String link = responseEntity.getBody().getData().getLink();

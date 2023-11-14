@@ -1,6 +1,5 @@
-package pdr.chorumeblog.model;
+package pdr.chorumeblog.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 @AllArgsConstructor
@@ -8,7 +7,7 @@ import lombok.*;
 @Data
 @Getter
 @Setter
-public class ImgurImageResponse {
+public class ImgurImageResponseDto {
     private Data data;
     public static class Data {
         private String link;
