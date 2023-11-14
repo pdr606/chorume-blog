@@ -12,5 +12,6 @@ public interface UserService {
     void deleteUser(String nickName, String password);
     UserEntity findUserByNickName(String nickName);
     UserDto updateUser(String nickName, UserDto data);
+    void updateProfilePicture(String urlPhoto, String nickName);
     List<UserDto> findRandomUsers();
 }

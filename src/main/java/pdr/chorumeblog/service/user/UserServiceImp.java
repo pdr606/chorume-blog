@@ -63,6 +63,13 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
+    public void updateProfilePicture(String urlPhoto, String nickName) {
+        UserEntity userEntity = findUserByNickName(nickName);
+        userEntity.setProfilePhoto(urlPhoto);
+        userRepository.save(userEntity);
+    }
+
+    @Override
     public List<UserDto> findRandomUsers() {
         return UserMapper.INSTANCE.toDtoList(userRepository.findRandomUsers());
     }
