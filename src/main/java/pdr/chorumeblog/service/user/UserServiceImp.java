@@ -10,6 +10,7 @@ import pdr.chorumeblog.exceptions.exceptions.NotFoundException;
 import pdr.chorumeblog.mapper.user.UserMapper;
 import pdr.chorumeblog.model.UserEntity;
 import pdr.chorumeblog.repository.UserRepository;
+import pdr.chorumeblog.service.authorizationService.AuthorizationService;
 
 import java.util.List;
 
@@ -20,9 +21,15 @@ public class UserServiceImp implements UserService {
     private UserRepository userRepository;
     @Override
     public void createUser(UserDto dto) {
-        UserEntity userEntity = UserDto.toEntity(dto);
-        userEntity.setLikes(0);
-        userRepository.save(userEntity);
+        if(!userRepository.existsByNickName(dto.nickName())){
+            UserEntity userEntity = UserDto.toEntity(dto);
+            userEntity.setPassword(AuthorizationService.encryptedPassword(
+                    dto.password()
+            ));
+            userEntity.setLikes(0);
+            userRepository.save(userEntity);
+        }
+
     }
 
     @Override

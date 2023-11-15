@@ -33,7 +33,7 @@ public class AuthController {
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.OK)
     public TokenDto login(@RequestBody @Validated(value = LoginUserValidation.class) UserDto data){
-        var usernamePassword = new UsernamePasswordAuthenticationToken(data.email(), data.password());
+        var usernamePassword = new UsernamePasswordAuthenticationToken(data.nickName(), data.password());
         var auth = authenticationManager.authenticate(usernamePassword);
         return new TokenDto(tokenService.generateToken((UserEntity) auth.getPrincipal()));
     }
