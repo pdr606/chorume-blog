@@ -1,12 +1,25 @@
 package pdr.chorumeblog.service.authorizationService;
 
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import pdr.chorumeblog.dto.TokenDto;
-import pdr.chorumeblog.dto.UserDto;
+import lombok.AllArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+import pdr.chorumeblog.service.user.UserService;
 
-public interface AuthorizationService {
+@AllArgsConstructor
+@Service
+public class AuthorizationService implements UserDetailsService {
 
-    TokenDto generateTokenDto(UserDto dto);
-    String encryptedPassword(String password);
-    UsernamePasswordAuthenticationToken generateUsernamePassword(String nickName, String password);
+    private final UserService userService;
+    @Override
+    public UserDetails loadUserByUsername(String nickName) throws UsernameNotFoundException {
+        return userService.findUserDetailsByNickName(nickName);
+    }
+
+    public static String encryptedPassword(String password){
+        return new BCryptPasswordEncoder().encode(password);
+    }
+
 }
