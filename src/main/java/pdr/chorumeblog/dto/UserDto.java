@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.experimental.Accessors;
 import pdr.chorumeblog.config.groupsValidation.CreateUserValidation;
 import pdr.chorumeblog.config.groupsValidation.DeleteUserValidation;
+import pdr.chorumeblog.config.groupsValidation.LoginUserValidation;
 import pdr.chorumeblog.config.groupsValidation.UpdateUserValidation;
 import pdr.chorumeblog.model.CommentEntity;
 import pdr.chorumeblog.model.PostEntity;
@@ -23,7 +24,7 @@ public record UserDto(
 
         @JsonInclude(JsonInclude.Include.NON_NULL)
         UUID id,
-        @NotEmpty(message = "NickName is required", groups = {CreateUserValidation.class, UpdateUserValidation.class, DeleteUserValidation.class})
+        @NotEmpty(message = "NickName is required", groups = {LoginUserValidation.class,CreateUserValidation.class, UpdateUserValidation.class, DeleteUserValidation.class})
         @JsonInclude(JsonInclude.Include.NON_NULL)
         String nickName,
 
@@ -34,7 +35,7 @@ public record UserDto(
         @JsonInclude(JsonInclude.Include.NON_NULL)
         String profilePhoto,
 
-        @NotEmpty(message = "Password is required", groups = {CreateUserValidation.class, DeleteUserValidation.class})
+        @NotEmpty(message = "Password is required", groups = {LoginUserValidation.class, CreateUserValidation.class, DeleteUserValidation.class})
         @JsonInclude(JsonInclude.Include.NON_NULL)
         String password,
 

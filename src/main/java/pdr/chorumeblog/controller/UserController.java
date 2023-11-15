@@ -27,47 +27,11 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
-    private final String BEARER_TOKEN = "592422d9d76256a991026439f846022313fb1606";
-    private final String IMGUR_API_URL = "https://api.imgur.com/3/image";
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void save(@RequestBody @Validated(value = CreateUserValidation.class) UserDto data) {
             userService.createUser(data);
-    }
-
-    @PostMapping(value = "/uploadFile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public void uploadFile(@RequestPart("file") MultipartFile file) throws IOException {
-        RestTemplate restTemplate = new RestTemplate();
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-        headers.set("Authorization", "Bearer " + BEARER_TOKEN);
-
-        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-        body.add("image", new ByteArrayResource(file.getBytes()) {
-            @Override
-            public String getFilename() {
-                return file.getOriginalFilename();
-            }
-        });
-
-        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
-
-        ResponseEntity<ImgurImageResponseDto> responseEntity = restTemplate.exchange(
-                IMGUR_API_URL,
-                HttpMethod.POST,
-                requestEntity,
-                ImgurImageResponseDto.class
-        );
-
-        String link = responseEntity.getBody().getData().getLink();
-
-
-        if (responseEntity.getStatusCode() == HttpStatus.OK) {
-            System.out.println("Image uploaded successfully. Imgur response: " + responseEntity.getBody());
-        } else {
-            System.err.println("Failed to upload image. Imgur response: " + responseEntity.getBody());
-        }
     }
 
     @GetMapping(value = "/{nickName}")

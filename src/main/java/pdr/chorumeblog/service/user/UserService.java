@@ -1,6 +1,7 @@
 package pdr.chorumeblog.service.user;
 
 
+import org.springframework.security.core.userdetails.UserDetails;
 import pdr.chorumeblog.dto.UserDto;
 import pdr.chorumeblog.model.UserEntity;
 
@@ -14,4 +15,5 @@ public interface UserService {
     UserDto updateUser(String nickName, UserDto data);
     void updateProfilePicture(String urlPhoto, String nickName);
     List<UserDto> findRandomUsers();
+    UserDetails findUserDetailsByNickName(String nickName);
 }

@@ -2,6 +2,7 @@ package pdr.chorumeblog.service.user;
 
 import lombok.AllArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import pdr.chorumeblog.dto.UserDto;
 import pdr.chorumeblog.exceptions.exceptions.DuplicateException;
@@ -72,6 +73,11 @@ public class UserServiceImp implements UserService {
     @Override
     public List<UserDto> findRandomUsers() {
         return UserMapper.INSTANCE.toDtoList(userRepository.findRandomUsers());
+    }
+
+    @Override
+    public UserDetails findUserDetailsByNickName(String nickName) {
+        return (UserDetails) userRepository.findByNickName(nickName);
     }
 
 }

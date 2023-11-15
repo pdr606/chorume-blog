@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import pdr.chorumeblog.exceptions.exceptions.DuplicateException;
 import pdr.chorumeblog.exceptions.exceptions.NotFoundException;
+import pdr.chorumeblog.exceptions.exceptions.UnauthorizedException;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -30,6 +31,14 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DuplicateException.class)
     public StandardError duplicateException(DuplicateException ex, HttpServletRequest request){
         String error = "Duplicate entity";
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        return new StandardError(Instant.now(), status.value(), Collections.singletonList(error), ex.getMessage(), request.getRequestURI());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(UnauthorizedException.class)
+    public StandardError duplicateException(UnauthorizedException ex, HttpServletRequest request){
+        String error = "Request Unauthorized";
         HttpStatus status = HttpStatus.BAD_REQUEST;
         return new StandardError(Instant.now(), status.value(), Collections.singletonList(error), ex.getMessage(), request.getRequestURI());
     }
