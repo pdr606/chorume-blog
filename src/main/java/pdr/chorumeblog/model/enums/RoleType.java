@@ -3,6 +3,7 @@ package pdr.chorumeblog.model.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import pdr.chorumeblog.exceptions.exceptions.InvalidRoleCodeException;
 
 @Getter
 @AllArgsConstructor
@@ -19,7 +20,7 @@ public enum RoleType {
             }
         }
 
-        throw new RuntimeException(); // create perso exception handler
+        throw new InvalidRoleCodeException(code);
     }
 
 
