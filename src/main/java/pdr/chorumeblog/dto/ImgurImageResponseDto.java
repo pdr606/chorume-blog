@@ -11,7 +11,6 @@ public class ImgurImageResponseDto {
     private Data data;
     public static class Data {
         private String link;
-
         public String getLink() {
             return this.link;
         }

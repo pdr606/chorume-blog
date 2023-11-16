@@ -60,6 +60,14 @@ public class PostServiceImp implements PostService {
     }
 
     @Override
+    public void updatePostPicture(String urlPhoto, Long postId) {
+        PostEntity post = postRepository.getReferenceById(postId);
+        post.setPostPicture(urlPhoto);
+        postRepository.save(post);
+
+    }
+
+    @Override
     public void acrescentLike(Long id,Authentication authentication) {
         PostEntity post = findPostById(id);
         String nickName = tokenService.getUserNickNameByToken(authentication);

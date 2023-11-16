@@ -1,11 +1,13 @@
 package pdr.chorumeblog.exceptions.core;
 
+import com.auth0.jwt.exceptions.JWTCreationException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import pdr.chorumeblog.exceptions.exceptions.CreateTokenException;
 import pdr.chorumeblog.exceptions.exceptions.DuplicateException;
 import pdr.chorumeblog.exceptions.exceptions.NotFoundException;
 import pdr.chorumeblog.exceptions.exceptions.UnauthorizedException;
@@ -36,7 +38,7 @@ public class GlobalExceptionHandler {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(UnauthorizedException.class)
+    @ExceptionHandler({UnauthorizedException.class, JWTCreationException.class, CreateTokenException.class})
     public StandardError duplicateException(UnauthorizedException ex, HttpServletRequest request){
         String error = "Request Unauthorized";
         HttpStatus status = HttpStatus.BAD_REQUEST;

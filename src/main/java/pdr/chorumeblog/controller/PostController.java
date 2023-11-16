@@ -28,7 +28,6 @@ import java.util.UUID;
 public class PostController {
 
     private final PostService postService;
-    private final TokenService tokenService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.OK)

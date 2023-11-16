@@ -32,6 +32,9 @@ public record PostDto(
         Integer likes,
 
         @JsonInclude(JsonInclude.Include.NON_NULL)
+        String postPicture,
+
+        @JsonInclude(JsonInclude.Include.NON_NULL)
         CreateAndUpdateEntity dateTime,
 
         @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -54,6 +57,7 @@ public record PostDto(
                 .content(data.getContent())
                 .userLiked(data.isUserLiked())
                 .likes(data.getLikes())
+                .postPicture(data.getPostPicture())
                 .dateTime(CreateAndUpdateEntity.builder()
                         .created(data.getDateTime().getCreated())
                         .updated(data.getDateTime().getUpdated())

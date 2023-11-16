@@ -34,6 +34,8 @@ public class PostEntity {
 
     private Integer likes;
 
+    private String postPicture;
+
     @Embedded
     private CreateAndUpdateEntity dateTime;
 

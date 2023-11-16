@@ -11,7 +11,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import pdr.chorumeblog.exceptions.exceptions.CreateTokenException;
 import pdr.chorumeblog.exceptions.exceptions.UnauthorizedException;
-import pdr.chorumeblog.infra.security.token.TokenService;
 import pdr.chorumeblog.model.UserEntity;
 
 import java.time.Instant;
@@ -56,6 +55,7 @@ public class TokenServiceImp implements TokenService {
     public String getUserNickNameByToken(Authentication authentication) {
         authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        if(userDetails.getUsername() == null) throw new UnauthorizedException("Invalid token");
         return userDetails.getUsername();
     }
 
