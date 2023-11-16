@@ -3,6 +3,7 @@ package pdr.chorumeblog.controller;
 import lombok.AllArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.*;
+import org.springframework.security.core.Authentication;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.validation.annotation.Validated;
@@ -36,20 +37,20 @@ public class UserController {
 
     @GetMapping(value = "/{nickName}")
     @ResponseStatus(HttpStatus.OK)
-    public UserDto getById(@PathVariable String nickName){
+    public UserDto getByNickName(@PathVariable String nickName){
         return UserMapper.INSTANCE.toDto(userService.findUserByNickName(nickName));
     }
 
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
-    public UserDto update(@RequestBody @Validated(value = UpdateUserValidation.class) UserDto dto){
-        return userService.updateUser(dto.nickName(), dto);
+    public UserDto update(@RequestBody @Validated(value = UpdateUserValidation.class) UserDto dto, Authentication authentication){
+        return userService.updateUser(authentication, dto);
     }
 
     @DeleteMapping
     @ResponseStatus(HttpStatus.OK)
-    public void delete(@RequestBody @Validated(value = DeleteUserValidation.class) UserDto dto){
-        userService.deleteUser(dto.nickName(), dto.password());
+    public void delete(Authentication authentication){
+        userService.deleteUser(authentication);
     }
     @GetMapping
     @ResponseStatus(HttpStatus.OK)

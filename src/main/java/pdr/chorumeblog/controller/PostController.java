@@ -5,10 +5,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import pdr.chorumeblog.config.security.SecurityConfiguration;
 import pdr.chorumeblog.dto.PostDto;
 import pdr.chorumeblog.dto.UserDto;
+import pdr.chorumeblog.infra.security.token.TokenService;
 import pdr.chorumeblog.model.PostEntity;
 import pdr.chorumeblog.model.UserEntity;
 import pdr.chorumeblog.service.post.PostService;
@@ -23,11 +28,12 @@ import java.util.UUID;
 public class PostController {
 
     private final PostService postService;
+    private final TokenService tokenService;
 
-    @PostMapping(value = "/user/{nickName}")
+    @PostMapping
     @ResponseStatus(HttpStatus.OK)
-    public void create(@PathVariable @Validated String nickName,@RequestBody @Validated PostDto dto){
-        postService.createPost(nickName, dto);
+    public void create(@RequestBody @Validated PostDto dto, Authentication authentication){
+        postService.createPost(dto, authentication);
     }
 
     @GetMapping(value = "/{postId}")
@@ -48,8 +54,8 @@ public class PostController {
         return postService.findAllPostsByNickName(nickName);
     }
 
-    @PostMapping(value = "/{postId}/{nickName}")
-    public void likePost(@PathVariable Long postId, @PathVariable String nickName){
-        postService.acrescentLike(postId, nickName);
+    @PostMapping(value = "/{postId}")
+    public void likePost(@PathVariable Long postId, Authentication authentication){
+        postService.acrescentLike(postId, authentication);
     }
 }

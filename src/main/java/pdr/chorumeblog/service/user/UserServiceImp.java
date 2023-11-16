@@ -2,11 +2,13 @@ package pdr.chorumeblog.service.user;
 
 import lombok.AllArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import pdr.chorumeblog.dto.UserDto;
 import pdr.chorumeblog.exceptions.exceptions.DuplicateException;
 import pdr.chorumeblog.exceptions.exceptions.NotFoundException;
+import pdr.chorumeblog.infra.security.token.TokenService;
 import pdr.chorumeblog.mapper.user.UserMapper;
 import pdr.chorumeblog.model.UserEntity;
 import pdr.chorumeblog.repository.UserRepository;
@@ -19,6 +21,7 @@ import java.util.List;
 public class UserServiceImp implements UserService {
 
     private UserRepository userRepository;
+    private TokenService tokenService;
     @Override
     public void createUser(UserDto dto) {
         if(!userRepository.existsByNickName(dto.nickName())){
@@ -33,11 +36,10 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public void deleteUser(String nickName, String password) {
+    public void deleteUser(Authentication authentication) {
+        String nickName = tokenService.getUserNickNameByToken(authentication);
         UserEntity entity = findUserByNickName(nickName);
-        if(password.equals(entity.getPassword())){
-            userRepository.delete(entity);
-        }
+        userRepository.delete(entity);
     }
 
     @Override
@@ -50,7 +52,8 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public UserDto updateUser(String nickName, UserDto dto) {
+    public UserDto updateUser(Authentication authentication, UserDto dto) {
+        String nickName = tokenService.getUserNickNameByToken(authentication);
         try {
             UserEntity entity = findUserByNickName(nickName);
             entity = userRepository.getReferenceById(entity.getId());

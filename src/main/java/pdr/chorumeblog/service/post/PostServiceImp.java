@@ -3,10 +3,12 @@ package pdr.chorumeblog.service.post;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import pdr.chorumeblog.dto.PostDto;
 import pdr.chorumeblog.dto.UserDto;
 import pdr.chorumeblog.exceptions.exceptions.NotFoundException;
+import pdr.chorumeblog.infra.security.token.TokenService;
 import pdr.chorumeblog.mapper.post.PostMapper;
 import pdr.chorumeblog.model.PostEntity;
 import pdr.chorumeblog.model.UserEntity;
@@ -22,11 +24,12 @@ import java.util.List;
 public class PostServiceImp implements PostService {
 
     private final UserService userService;
-
+    private final TokenService tokenService;
     private final PostRepository postRepository;
     private final UserPostLikeService userPostLikeService;
     @Override
-    public void createPost(String nickName, PostDto dto) {
+    public void createPost(PostDto dto, Authentication authentication) {
+        String nickName = tokenService.getUserNickNameByToken(authentication);
         UserEntity user = userService.findUserByNickName(nickName);
         PostEntity post = PostDto.toEntity(dto);
         post.setUser(user);
@@ -57,8 +60,9 @@ public class PostServiceImp implements PostService {
     }
 
     @Override
-    public void acrescentLike(Long id, String nickName) {
+    public void acrescentLike(Long id,Authentication authentication) {
         PostEntity post = findPostById(id);
+        String nickName = tokenService.getUserNickNameByToken(authentication);
         UserEntity user = userService.findUserByNickName(nickName);
         if(userPostLikeService.saveLike(UserPostLikeEntity.builder().user(user).post(post).build())){
             post.setLikes(post.getLikes() + 1);

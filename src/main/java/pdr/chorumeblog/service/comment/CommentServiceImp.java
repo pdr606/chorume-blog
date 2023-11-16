@@ -1,9 +1,11 @@
 package pdr.chorumeblog.service.comment;
 
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import pdr.chorumeblog.dto.CommentDto;
 import pdr.chorumeblog.dto.UserDto;
+import pdr.chorumeblog.infra.security.token.TokenService;
 import pdr.chorumeblog.mapper.comment.CommentMapper;
 import pdr.chorumeblog.mapper.post.PostMapper;
 import pdr.chorumeblog.model.CommentEntity;
@@ -22,12 +24,12 @@ import java.util.UUID;
 public class CommentServiceImp implements CommentService {
 
     private final UserService userService;
-
     private final PostService postService;
-
     private final CommentRepository commentRepository;
+    private final TokenService tokenService;
     @Override
-    public void createComment(String nickName, CommentEntity comment, Long postId) {
+    public void createComment(Authentication authentication, CommentEntity comment, Long postId) {
+        String nickName = tokenService.getUserNickNameByToken(authentication);
         UserEntity user = userService.findUserByNickName(nickName);
         PostEntity post = postService.findPostById(postId);
         comment.setUser(user);

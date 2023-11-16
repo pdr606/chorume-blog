@@ -24,7 +24,7 @@ public record UserDto(
 
         @JsonInclude(JsonInclude.Include.NON_NULL)
         UUID id,
-        @NotEmpty(message = "NickName is required", groups = {LoginUserValidation.class,CreateUserValidation.class, UpdateUserValidation.class, DeleteUserValidation.class})
+        @NotEmpty(message = "NickName is required", groups = {LoginUserValidation.class,CreateUserValidation.class, UpdateUserValidation.class})
         @JsonInclude(JsonInclude.Include.NON_NULL)
         String nickName,
 

@@ -2,6 +2,7 @@ package pdr.chorumeblog.controller;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import pdr.chorumeblog.dto.CommentDto;
 import pdr.chorumeblog.model.CommentEntity;
@@ -19,10 +20,10 @@ public class CommentController {
 
     private final CommentService commentService;
 
-    @PostMapping(value = "/{nickName}/{postId}")
+    @PostMapping(value = "/{postId}")
     @ResponseStatus(HttpStatus.OK)
-    public void create(@PathVariable String nickName, @PathVariable Long postId,@RequestBody CommentEntity data){
-        commentService.createComment(nickName, data, postId);
+    public void create(Authentication authentication, @PathVariable Long postId, @RequestBody CommentEntity data){
+        commentService.createComment(authentication, data, postId);
     }
 
     @GetMapping(value = "/{commentId}")
