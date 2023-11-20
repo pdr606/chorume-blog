@@ -11,9 +11,9 @@ import java.util.UUID;
 
 public interface UserService {
     void createUser(UserDto data);
-    void deleteUser(Authentication authentication);
+    void deleteUser(String nickName);
     UserEntity findUserByNickName(String nickName);
-    UserDto updateUser(Authentication authentication, UserDto data);
+    UserDto updateUser(UserDto dto, String nickName);
     void updateProfilePicture(String urlPhoto, String nickName);
     List<UserDto> findRandomUsers();
     UserDetails findUserDetailsByNickName(String nickName);

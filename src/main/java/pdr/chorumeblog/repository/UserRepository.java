@@ -13,7 +13,6 @@ import java.util.UUID;
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, UUID> {
     UserEntity findByNickName(String nickName);
-
     boolean existsByNickName(String nickName);
     @Query(value = "SELECT * FROM user_entity ORDER BY RAND() LIMIT 4", nativeQuery = true)
     List<UserEntity> findRandomUsers();

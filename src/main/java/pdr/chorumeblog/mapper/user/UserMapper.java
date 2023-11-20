@@ -2,11 +2,7 @@ package pdr.chorumeblog.mapper.user;
 
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
-import pdr.chorumeblog.dto.CommentDto;
-import pdr.chorumeblog.dto.PostDto;
 import pdr.chorumeblog.dto.UserDto;
-import pdr.chorumeblog.model.CommentEntity;
-import pdr.chorumeblog.model.PostEntity;
 import pdr.chorumeblog.model.UserEntity;
 
 import java.util.List;

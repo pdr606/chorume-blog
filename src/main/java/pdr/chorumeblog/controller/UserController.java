@@ -14,6 +14,7 @@ import pdr.chorumeblog.config.groupsValidation.CreateUserValidation;
 import pdr.chorumeblog.config.groupsValidation.DeleteUserValidation;
 import pdr.chorumeblog.config.groupsValidation.UpdateUserValidation;
 import pdr.chorumeblog.dto.UserDto;
+import pdr.chorumeblog.infra.security.token.TokenService;
 import pdr.chorumeblog.mapper.user.UserMapper;
 import pdr.chorumeblog.dto.ImgurImageResponseDto;
 import pdr.chorumeblog.service.user.UserService;
@@ -28,6 +29,7 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final TokenService tokenService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -44,13 +46,15 @@ public class UserController {
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
     public UserDto update(@RequestBody @Validated(value = UpdateUserValidation.class) UserDto dto, Authentication authentication){
-        return userService.updateUser(authentication, dto);
+        String nickName = tokenService.getUserNickNameByToken(authentication);
+        return userService.updateUser(dto, nickName);
     }
 
     @DeleteMapping
     @ResponseStatus(HttpStatus.OK)
     public void delete(Authentication authentication){
-        userService.deleteUser(authentication);
+        String nickName = tokenService.getUserNickNameByToken(authentication);
+        userService.deleteUser(nickName);
     }
     @GetMapping
     @ResponseStatus(HttpStatus.OK)

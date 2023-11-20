@@ -36,8 +36,7 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public void deleteUser(Authentication authentication) {
-        String nickName = tokenService.getUserNickNameByToken(authentication);
+    public void deleteUser(String nickName) {
         UserEntity entity = findUserByNickName(nickName);
         userRepository.delete(entity);
     }
@@ -52,8 +51,7 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public UserDto updateUser(Authentication authentication, UserDto dto) {
-        String nickName = tokenService.getUserNickNameByToken(authentication);
+     public UserDto updateUser(UserDto dto, String nickName) {
         try {
             UserEntity entity = findUserByNickName(nickName);
             entity = userRepository.getReferenceById(entity.getId());
@@ -65,6 +63,7 @@ public class UserServiceImp implements UserService {
             }
 
             UserMapper.INSTANCE.updateUserFromDto(dto, entity);
+            userRepository.save(entity);
 
             return UserMapper.INSTANCE.toDto(entity);
 
@@ -87,7 +86,7 @@ public class UserServiceImp implements UserService {
 
     @Override
     public UserDetails findUserDetailsByNickName(String nickName) {
-        return (UserDetails) userRepository.findByNickName(nickName);
+        return userRepository.findByNickName(nickName);
     }
 
 }
