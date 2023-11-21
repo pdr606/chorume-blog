@@ -2,6 +2,7 @@ package pdr.chorumeblog.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.GenericGenerator;
@@ -32,14 +33,17 @@ public class UserEntity implements UserDetails {
     private UUID id;
 
     @Column(nullable = false, unique = true)
+    @NotEmpty
     private String nickName;
 
     @Column(nullable = false, unique = true)
+    @NotEmpty
     private String email;
 
     private String profilePhoto;
 
     @Column(nullable = false)
+    @NotEmpty
     private String password;
 
     private String linkedin;

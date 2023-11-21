@@ -23,11 +23,9 @@ import pdr.chorumeblog.repository.UserRepository;
 
 import java.util.Collections;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static pdr.chorumeblog.common.UserConstants.*;
 
 
@@ -60,19 +58,17 @@ class UserServiceImpTest {
     }
 
     @Test
-    void deleteUser_WithSuccess_ReturnNull() {
-        when(userRepository.save(any())).thenReturn(VALID_OUTPUT_ENTITY);
-        when(userRepository.findByNickName(VALID_INPUT_DTO.nickName())).thenReturn(VALID_INPUT_ENTITY);
+    void deleteUser_WithSuccess_doesNotThrowAnyException() {
+        when(userRepository.findByNickName(VALID_INPUT_ENTITY.getNickName())).thenReturn(VALID_OUTPUT_ENTITY);
 
-        doNothing().when(userRepository).delete(ArgumentMatchers.any(UserEntity.class));
+        assertThatCode(() -> userService.deleteUser(VALID_INPUT_ENTITY.getNickName())).doesNotThrowAnyException();
+    }
 
-        userService.createUser(VALID_INPUT_DTO);
-        userService.deleteUser(VALID_INPUT_ENTITY.getNickName());
+    @Test
+    void deleteUser_WithUnexistingNickName_ThrowsException(){
+        lenient().doThrow(new NotFoundException("User not found")).when(userRepository).delete(VALID_INPUT_ENTITY);
 
-        when(userRepository.findByNickName(VALID_INPUT_DTO.nickName())).thenReturn(null);
-
-        assertThatThrownBy(() -> userService.findUserByNickName(VALID_INPUT_DTO.nickName())).isInstanceOf(NotFoundException.class);
-
+        assertThatThrownBy(() -> userService.deleteUser(VALID_INPUT_ENTITY.getNickName())).isInstanceOf(NotFoundException.class);
     }
 
     @Test
@@ -100,7 +96,7 @@ class UserServiceImpTest {
 
 
     @Test
-    void updateProfilePicture() {
+    void updateProfilePicture_WithValidUrlPicture_doesNotThrowAnyException() {
         when(userRepository.findByNickName(any())).thenReturn(VALID_OUTPUT_ENTITY);
 
         userService.updateProfilePicture(URL_PHOTO_UPDATE, VALID_INPUT_DTO.nickName());
@@ -110,7 +106,7 @@ class UserServiceImpTest {
     }
 
     @Test
-    void findRandomUsers() {
+    void findRandomUsers_WithValid_ReturnsListOfUsers() {
         when(userRepository.findRandomUsers()).thenReturn(Collections.singletonList(VALID_INPUT_ENTITY));
 
         List<UserDto> list = userService.findRandomUsers();
@@ -119,7 +115,7 @@ class UserServiceImpTest {
     }
 
     @Test
-    void findUserDetailsByNickName() {
+    void findUserDetailsByNickName_WithValidNickName_ReturnsUserDetails() {
         when(userRepository.findByNickName(any())).thenReturn(VALID_OUTPUT_ENTITY);
 
         UserDetails sut = userService.findUserDetailsByNickName(VALID_INPUT_DTO.nickName());
