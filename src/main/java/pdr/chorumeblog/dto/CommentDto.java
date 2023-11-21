@@ -25,7 +25,9 @@ public record CommentDto(
         @JsonInclude(JsonInclude.Include.NON_NULL)
         CreateAndUpdateEntity dateTime,
         @JsonInclude(JsonInclude.Include.NON_NULL)
-        UserDto user
+        UserDto user,
+        @JsonInclude(JsonInclude.Include.NON_NULL)
+        PostDto post
 
 )
 {
